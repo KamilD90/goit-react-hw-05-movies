@@ -2,7 +2,7 @@ import { Routes, Route, NavLink } from 'react-router-dom';
 import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
 
-import { TrendingMovies } from 'API/TrendingMovies';
+import { TrendingMovies } from 'API/API';
 import { Cast, Home, MovieDetails, MovieSearch, Reviews } from './pages';
 const StyledLink = styled(NavLink)`
   color: black;

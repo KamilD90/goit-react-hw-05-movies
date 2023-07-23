@@ -1,30 +1,44 @@
+import axios from 'axios';
+
 export async function TrendingMovies(apiKey, currentPage) {
   try {
-    const response = await fetch(
-      `https://api.themoviedb.org/3/trending/all/day?api_key=${apiKey}&page=${currentPage}`
+    const response = await axios.get(
+      `https://api.themoviedb.org/3/trending/all/day`,
+      {
+        params: {
+          api_key: apiKey,
+          page: currentPage,
+        },
+      }
     );
-    const data = await response.json();
-    return data;
+    return response.data;
   } catch (error) {
     console.error('Error fetching trending movies:', error);
     throw error;
   }
 }
 
-export async function getGenres(genreIds) {
+export async function getGenres(apiKey, genreIds) {
   try {
-    const response = await fetch(
-      `https://api.themoviedb.org/3/genre/movie/list?api_key=${apiKey}`
+    const response = await axios.get(
+      `https://api.themoviedb.org/3/genre/movie/list`,
+      {
+        params: {
+          api_key: apiKey,
+        },
+      }
     );
-    const data = await response.json();
+    const data = response.data;
+    console.log('Data from API:', data);
 
-    // Filter the genres based on the provided genreIds
+    // Filtrujemy gatunki na podstawie dostarczonych identyfikatorów gatunków (genreIds)
     const genres = data.genres.filter(genre => genreIds.includes(genre.id));
+    console.log('Filtered genres:', genres);
 
-    // Map the genre names and return as an array
+    // Mapujemy nazwy gatunków i zwracamy jako tablicę
     return genres.map(genre => genre.name);
   } catch (error) {
-    console.error('Error fetching genre names:', error);
+    console.error('Błąd podczas pobierania nazw gatunków filmowych:', error);
     throw error;
   }
 }

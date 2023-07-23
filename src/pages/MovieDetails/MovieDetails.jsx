@@ -1,28 +1,37 @@
 import { Link, Outlet, useParams } from 'react-router-dom';
 import { useEffect } from 'react';
-import { getGenres } from './API/Api.js';
+import { getGenres } from 'API/API';
 
 export const MovieDetails = ({ moviesData }) => {
-  //pobieramy id filmu z linku URL
   const { movieId } = useParams();
-  //pośród moviesData szukamy danych filmu o id takim jak w URL
-  const movie = moviesData.find(movie => movie.id === parseInt(movieId));
-  //jeśłi nie pasuje żaden zwórć odpowiednią informacje
+  console.log('movieId:', movieId);
+
+  const movie =
+    movieId && moviesData.find(movie => movie.id === parseInt(movieId));
+  console.log('movie:', movie);
 
   useEffect(() => {
-    if (movie) {
-      const genreIds = movie.genres.map(genre => genre.id);
+    const fetchGenres = async () => {
+      if (movie) {
+        const genreIds = movie.genres.map(genre => genre.id);
+        console.log('genreIds:', genreIds);
 
-      const fetchGenres = async () => {
-        await getGenres(genreIds);
-      };
+        try {
+          const genres = await getGenres(genreIds);
+          console.log('genres:', genres);
+          // Tutaj możesz coś zrobić z wynikami, na przykład zaktualizować stan komponentu
+        } catch (error) {
+          console.error('Błąd pobierania nazw gatunków filmowych:', error);
+          // Obsłuż ewentualne błędy
+        }
+      }
+    };
 
-      fetchGenres();
-    }
+    fetchGenres();
   }, [movie]);
 
   if (!movie) {
-    return <div>Movie not found! </div>;
+    return <div>Movie not found!</div>;
   }
 
   return (
