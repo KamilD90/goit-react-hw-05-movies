@@ -1,6 +1,8 @@
 import axios from 'axios';
 
-export async function TrendingMovies(apiKey, currentPage) {
+export const apiKey = 'd416a06f75f7c918219a6b8fa9f2713c';
+
+export async function getTrendingMovies(apiKey, currentPage) {
   try {
     const response = await axios.get(
       `https://api.themoviedb.org/3/trending/all/day`,
@@ -18,27 +20,38 @@ export async function TrendingMovies(apiKey, currentPage) {
   }
 }
 
-export async function getGenres(apiKey, genreIds) {
+export const getMovieDetails = async movieId => {
   try {
     const response = await axios.get(
-      `https://api.themoviedb.org/3/genre/movie/list`,
-      {
-        params: {
-          api_key: apiKey,
-        },
-      }
+      `https://api.themoviedb.org/3/movie/${movieId}?api_key=${apiKey}`
     );
-    const data = response.data;
-    console.log('Data from API:', data);
-
-    // Filtrujemy gatunki na podstawie dostarczonych identyfikatorów gatunków (genreIds)
-    const genres = data.genres.filter(genre => genreIds.includes(genre.id));
-    console.log('Filtered genres:', genres);
-
-    // Mapujemy nazwy gatunków i zwracamy jako tablicę
-    return genres.map(genre => genre.name);
+    return response.data;
   } catch (error) {
-    console.error('Błąd podczas pobierania nazw gatunków filmowych:', error);
+    console.error('Błąd podczas pobierania informacji o filmie:', error);
     throw error;
   }
-}
+};
+
+export const getMovieCredits = async (movieId, apiKey) => {
+  try {
+    const response = await axios.get(
+      `https://api.themoviedb.org/3/movie/${movieId}/credits?api_key=${apiKey}`
+    );
+    return response.data;
+  } catch (error) {
+    console.error('Blad podczas pobierania obsady filmu', error);
+    throw error;
+  }
+};
+
+export const getMovieReviews = async (movieId, apiKey) => {
+  try {
+    const response = await axios.get(
+      `https://api.themoviedb.org/3/movie/${movieId}/reviews?api_key=${apiKey}`
+    );
+    return response.data;
+  } catch (error) {
+    console.error('błąd podczas pobierania recenzji filmu', error);
+    throw error;
+  }
+};
