@@ -1,0 +1,39 @@
+.wrapper {
+    padding: 20px 30px;
+    
+}
+
+.input{
+    padding: 10px;
+    min-width: 150px;
+    margin-right: 40px;
+    color: rgb(14, 222, 14);
+    background-color: #4a3b3b;
+    border-radius: 5px;
+    outline: none;
+    border:none;
+    font-size:16px;
+}
+
+.input::placeholder {
+    color: rgba(78, 130, 78, 0.6);
+    font-size: 14px; 
+  }
+
+.button{
+    padding: 11px;
+    font-size:14px;
+    color: rgb(14, 222, 14);
+    background-color: #4a3b3b;
+    border-radius: 5px;
+    outline: none;
+    border:none;
+}
+
+.search_results{
+    margin-top: 40px;
+}
+
+.single_record{
+    margin: 10px 0;
+}

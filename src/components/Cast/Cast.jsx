@@ -2,8 +2,9 @@ import React from 'react';
 import { getMovieCredits } from 'API/API';
 import { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
+import css from './Cast.module.css';
 
-export const Cast = () => {
+const Cast = () => {
   const { movieId } = useParams();
   const [cast, setCast] = useState([]);
 
@@ -22,12 +23,12 @@ export const Cast = () => {
   }, []);
 
   return (
-    <div>
-      <h2>Cast</h2>
+    <div className={css.cast}>
+      <h2 className={css.title}>Cast</h2>
       {cast.map(actor => (
-        <div key={actor.id}>
-          <p>{actor.name}</p>
-          <p>{actor.character}</p>
+        <div key={actor.id} className={css.actor}>
+          <p className={css.name}>{actor.name}: </p>
+          <p className={css.role}>{actor.character}</p>
         </div>
       ))}
     </div>

@@ -1,0 +1,17 @@
+.cast{
+    padding: 20px;
+}
+
+.title{
+    text-align: center;
+
+}
+
+.actor{
+    display: flex;
+}
+
+.name{
+    margin: 10px;
+    color:greenyellow;
+}

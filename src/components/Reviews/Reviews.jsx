@@ -3,8 +3,9 @@ import { getMovieReviews } from 'API/API';
 import { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import { apiKey } from 'API/API'; // Importujemy apiKey z zewnętrznego modułu
+import css from './Reviews.module.css';
 
-export const Reviews = () => {
+const Reviews = () => {
   const { movieId } = useParams();
   const [reviews, setReviews] = useState([]);
 
@@ -22,12 +23,12 @@ export const Reviews = () => {
   }, [movieId]);
 
   return (
-    <div>
-      <h2>Reviews</h2>
+    <div className={css.review}>
+      <h2 className={css.title}>Reviews</h2>
       {reviews.length > 0 ? (
         reviews.map(review => (
           <div key={review.id}>
-            <p>{review.author}</p>
+            <p className={css.author}>{review.author}</p>
             <p>{review.content}</p>
           </div>
         ))
