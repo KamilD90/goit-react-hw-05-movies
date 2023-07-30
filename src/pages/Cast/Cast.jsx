@@ -2,27 +2,24 @@ import React from 'react';
 import { getMovieCredits } from 'API/API';
 import { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
-// import { Outlet } from 'react-router-dom';
 
 export const Cast = () => {
   const { movieId } = useParams();
   const [cast, setCast] = useState([]);
 
+  const fetchMovieCredits = async () => {
+    try {
+      const movieCastData = await getMovieCredits(movieId);
+      setCast(movieCastData.cast);
+      console.log(movieCastData);
+    } catch (error) {
+      console.error('An error occured while fetching the data', error);
+    }
+  };
+
   useEffect(() => {
     fetchMovieCredits();
   }, []);
-
-  const fetchMovieCredits = async () => {
-    try {
-      const castData = await getMovieCredits(movieId);
-      setCast(castData);
-    } catch (error) {
-      console.error(
-        'Błąd podczas pobierania informacji o zespole aktorskim:',
-        error
-      );
-    }
-  };
 
   return (
     <div>

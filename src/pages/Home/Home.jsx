@@ -12,7 +12,7 @@ export const Home = () => {
       try {
         const trendingMoviesData = await getTrendingMovies(apiKey, currentPage);
         console.log('Trending movies data:', trendingMoviesData.results);
-        setMoviesData(trendingMoviesData); // Ustawiamy tylko tablicę z wynikami, nie cały obiekt
+        setMoviesData(trendingMoviesData.results); // Ustawiamy tylko tablicę z wynikami, nie cały obiekt
       } catch (error) {
         console.error('Error fetching trending movies:', error);
       }

@@ -20,6 +20,24 @@ export async function getTrendingMovies(apiKey, currentPage) {
   }
 }
 
+export async function getMovieByName(query) {
+  try {
+    const response = await axios.get(
+      'https://api.themoviedb.org/3/search/movie',
+      {
+        params: {
+          api_key: apiKey,
+          query: query,
+        },
+      }
+    );
+    return response.data;
+  } catch (error) {
+    console.error('nie znaleziono filmu z zadaną nazwą :', error);
+    throw error;
+  }
+}
+
 export const getMovieDetails = async movieId => {
   try {
     const response = await axios.get(
@@ -32,7 +50,7 @@ export const getMovieDetails = async movieId => {
   }
 };
 
-export const getMovieCredits = async (movieId, apiKey) => {
+export const getMovieCredits = async movieId => {
   try {
     const response = await axios.get(
       `https://api.themoviedb.org/3/movie/${movieId}/credits?api_key=${apiKey}`
@@ -44,7 +62,7 @@ export const getMovieCredits = async (movieId, apiKey) => {
   }
 };
 
-export const getMovieReviews = async (movieId, apiKey) => {
+export const getMovieReviews = async movieId => {
   try {
     const response = await axios.get(
       `https://api.themoviedb.org/3/movie/${movieId}/reviews?api_key=${apiKey}`

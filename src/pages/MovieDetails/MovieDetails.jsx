@@ -1,59 +1,38 @@
 import React from 'react';
 import { Link, Outlet, useParams } from 'react-router-dom';
 import { useEffect, useState } from 'react';
-import { getMovieDetails, getMovieCredits, getMovieReviews } from 'API/API';
+import { getMovieDetails } from 'API/API';
 // import { Cast } from './pages';
 
 export const MovieDetails = () => {
   const { movieId } = useParams();
-  const [movie, setMovie] = useState(null);
-  const [cast, setCast] = useState(null);
-  const [reviews, setReviews] = useState(null);
+  console.log(movieId);
+  const [movie, setMovie] = useState({});
 
   const fetchMovieDetails = async () => {
     try {
       const movieData = await getMovieDetails(movieId);
-      setMovie(movieData);
-      console.log(movieData);
+      // Sprawdzamy, czy movieData.results jest poprawne, zanim je ustawić jako movie
+      if (movieData) {
+        setMovie(movieData);
+      } else {
+        // Obsługujemy przypadki, gdy nie można znaleźć szczegółów filmu
+        console.error('Nie znaleziono szczegółów filmu!');
+      }
     } catch (error) {
-      console.error('Error fetching movie details:', error);
+      console.error('Błąd podczas pobierania szczegółów filmu:', error);
+      // Obsługujemy błąd i wyświetlamy przyjazny dla użytkownika komunikat
     }
   };
-
-  const fetchMovieCredits = async () => {
-    try {
-      const movieCastData = await getMovieCredits(movieId);
-      setCast(movieCastData.cast);
-      console.log(movieCastData);
-    } catch (error) {
-      console.error('An error occured while fetching the data', error);
-    }
-  };
-
-  const fetchMovieReviews = async () => {
-    try {
-      const movieReviewData = await getMovieReviews(movieId);
-      setReviews(movieReviewData);
-      console.log(movieReviewData);
-    } catch (error) {
-      console.error(
-        'wystąpil błąd podczas pobierania danych o recenzjach',
-        error
-      );
-      throw error;
-    }
-  };
-  // const apiKey = 'd416a06f75f7c918219a6b8fa9f2713c';
 
   useEffect(() => {
     fetchMovieDetails();
-    fetchMovieCredits();
-    fetchMovieReviews();
   }, []);
 
   if (!movie) {
-    return <div>Movie not found!</div>;
+    return <div>Film nie znaleziony!</div>;
   }
+
   return (
     <main>
       <Link to="/">Go back</Link>

@@ -2,23 +2,24 @@ import React from 'react';
 import { getMovieReviews } from 'API/API';
 import { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
+import { apiKey } from 'API/API'; // Importujemy apiKey z zewnętrznego modułu
 
 export const Reviews = () => {
   const { movieId } = useParams();
   const [reviews, setReviews] = useState([]);
 
-  useEffect(() => {
-    fetchMovieReviews();
-  }, []);
-
   const fetchMovieReviews = async () => {
     try {
-      const reviewsData = await getMovieReviews(movieId);
-      setReviews(reviewsData);
+      const movieReviewData = await getMovieReviews(movieId, apiKey); // Pass the movieId and apiKey
+      setReviews(movieReviewData.results); // Use the 'results' property from the API response
     } catch (error) {
-      console.error('Błąd podczas pobierania recenzji:', error);
+      console.error('Error fetching movie reviews:', error);
     }
   };
+
+  useEffect(() => {
+    fetchMovieReviews();
+  }, [movieId]);
 
   return (
     <div>
